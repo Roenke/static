@@ -20,48 +20,33 @@ Object myRes = null;
       Object streamResult = null;
       try {
         streamResult = new java.lang.Object[] { Arrays.stream(new int[]{10, 87, 97, 43, 121, 20})
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {time.incrementAndGet();}})
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {producerPeek0after.put(time.get(), x);}})
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {flatMapPeek1before.put(time.get(), x);}})
-            .flatMap(new java.util.function.IntFunction<java.util.stream.IntStream>(){@java.lang.Override
-            public java.util.stream.IntStream apply(int n) {return factorize(n);}})
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {time.incrementAndGet();}})
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {flatMapPeek1after.put(time.get(), x);}})
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {distinctPeek2before.put(time.get(), x);}})
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {distinct2Store.computeIfAbsent(x, y -> new java.util.LinkedHashMap<>()).put(time.get(), x);}})
+              .peek(x -> time.incrementAndGet())
+              .peek(x -> producerPeek0after.put(time.get(), x))
+              .peek(x -> flatMapPeek1before.put(time.get(), x))
+            .flatMap(n -> factorize(n))
+              .peek(x -> time.incrementAndGet())
+              .peek(x -> flatMapPeek1after.put(time.get(), x))
+              .peek(x -> distinctPeek2before.put(time.get(), x))
+              .peek(x -> distinct2Store.computeIfAbsent(x, y -> new java.util.LinkedHashMap<>()).put(time.get(), x))
             .distinct()
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {time.incrementAndGet();}})
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {distinctPeek2after.put(time.get(), x);}})
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-                  public void accept(int x) {
-                    final java.util.Map<java.lang.Integer, java.lang.Integer> objects = distinct2Store.get(x);
-                    for (final int key: objects.keySet()) {
-                      final int value = objects.get(key);
-                      if (value == x && !distinct2ReverseUtil.containsKey(key)) {
-                        distinct2ReverseUtil.put(time.get(), key);
+              .peek(x -> time.incrementAndGet())
+              .peek(x -> distinctPeek2after.put(time.get(), x))
+              .peek(x -> {
+                      final java.util.Map<Integer, Integer> objects = distinct2Store.get(x);
+                      for (final int key: objects.keySet()) {
+                        final int value = objects.get(key);
+                        if (value == x && !distinct2ReverseUtil.containsKey(key)) {
+                          distinct2ReverseUtil.put(time.get(), key);
+                        }
                       }
                     }
-                  }}
-            )
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {sortedPeek3before.put(time.get(), x);}})
+              )
+              .peek(x -> sortedPeek3before.put(time.get(), x))
             .sorted()
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {time.incrementAndGet();}})
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {sortedPeek3after.put(time.get(), x);}})
-            .peek(new java.util.function.IntConsumer(){@java.lang.Override
-            public void accept(int x) {terminatorPeek2147483647before.put(time.get(), x);}})
-            .sequential()
+              .peek(x -> time.incrementAndGet())
+              .peek(x -> sortedPeek3after.put(time.get(), x))
+              .peek(x -> terminatorPeek2147483647before.put(time.get(), x))
+              .sequential()
             .toArray() };
 
       }
@@ -256,4 +241,4 @@ Object myRes = null;
       myRes = new java.lang.Object[]{ info, streamResult, elapsedTime };
 
     }
-    myRes;
+    return myRes;
